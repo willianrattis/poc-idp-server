@@ -1,3 +1,4 @@
+global using IdpServer.Configuration;
 global using IdpServer.Data;
 global using IdpServer.Extensions;
 global using IdpServer;
@@ -11,4 +12,5 @@ global using OpenIddict.Abstractions;
 global using OpenIddict.Server.AspNetCore;
 global using Scalar.AspNetCore;
 global using System.Security.Claims;
+global using System.Security.Cryptography;
 global using static OpenIddict.Abstractions.OpenIddictConstants;

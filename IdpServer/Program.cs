@@ -1,5 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 
+var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
+
+// Criar uma instância de RSA e importar a chave privada a partir do PEM.
+RSA rsa = RSA.Create();
+rsa.ImportFromPem(jwtOptions?.PrivateKey.ToCharArray());
+
+// Criar o RsaSecurityKey usando a chave privada e definir o KeyId.
+var signingKey = new RsaSecurityKey(rsa) { KeyId = jwtOptions?.KeyId };
+
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -11,19 +21,25 @@ builder.Services.AddOpenIddict()
     .AddCore(options =>
     {
         options.UseEntityFrameworkCore()
-               .UseDbContext<ApplicationDbContext>();
+            .UseDbContext<ApplicationDbContext>();
     })
     .AddServer(options =>
     {
         options.SetTokenEndpointUris("connect/token");
-        
+
+        // Permitir o fluxo de client credentials.
         options.AllowClientCredentialsFlow();
-        
-        options.AddDevelopmentEncryptionCertificate()
-               .AddDevelopmentSigningCertificate();
-        
+
+        // Utilize sua chave para assinatura:
+        options.AddSigningCredentials(new SigningCredentials(signingKey, SecurityAlgorithms.RsaSha256));
+
+        // Registre uma chave de encriptação (opção 1 ou 2):
+        options.AddDevelopmentEncryptionCertificate();
+        // ou
+        // options.AddEphemeralEncryptionKey();
+
         options.UseAspNetCore()
-               .EnableTokenEndpointPassthrough();
+            .EnableTokenEndpointPassthrough();
     });
 
 builder.Services.AddControllers();

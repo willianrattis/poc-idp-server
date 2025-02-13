@@ -12,7 +12,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
         // Register a client application if it doesn't exist.
-        if (await manager.FindByClientIdAsync("service-worker") is null)
+        if (await manager.FindByClientIdAsync("service-worker", cancellationToken) is null)
         {
             await manager.CreateAsync(new OpenIddict.Abstractions.OpenIddictApplicationDescriptor
             {
@@ -23,7 +23,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.ClientCredentials
                 }
-            });
+            }, cancellationToken);
         }
     }
 
