@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scalar.AspNetCore" Version="2.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1" />
+    
+  <!-- Pacotes do EF Core (todos na mesma versão) -->
+  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.2" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2">
+    <PrivateAssets>all</PrivateAssets>
+  </PackageReference>
+  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.2" />
+
+  <!-- OpenIddict -->
+  <PackageReference Include="OpenIddict.AspNetCore" Version="6.1.0" />
+  <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="6.1.0" />
+
+  <!-- ASP.NET Core Identity (versões a ajustar conforme a versão do ASP.NET Core utilizada) -->
+  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.2" />
+  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.2" />
+</ItemGroup>
+
+
+</Project>

@@ -1,0 +1,14 @@
+global using IdpServer.Data;
+global using IdpServer.Extensions;
+global using IdpServer;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.IdentityModel.Tokens;
+global using OpenIddict.Abstractions;
+global using OpenIddict.Server.AspNetCore;
+global using Scalar.AspNetCore;
+global using System.Security.Claims;
+global using static OpenIddict.Abstractions.OpenIddictConstants;
