@@ -9,21 +9,24 @@ public class AuthorizationController(IOpenIddictApplicationManager applicationMa
         var request = HttpContext.GetOpenIddictServerRequest();
         if (request.IsClientCredentialsGrantType())
         {
-            // The client credentials are automatically validated by OpenIddict.
+            // As credenciais do cliente são validadas automaticamente pelo OpenIddict.
             var application = await applicationManager.FindByClientIdAsync(request.ClientId) ??
-                              throw new InvalidOperationException("The application cannot be found.");
+                              throw new InvalidOperationException("O aplicativo não pode ser encontrado.");
 
-            // Create a new ClaimsIdentity containing the claims used to create the token.
+            // Crie um novo ClaimsIdentity contendo as declarações usadas para criar o token.
             var identity = new ClaimsIdentity(TokenValidationParameters.DefaultAuthenticationType,
                 OpenIddictConstants.Claims.Name, OpenIddictConstants.Claims.Role);
 
-            // Use the client_id as the subject identifier.
+            // Use o client_id como identificador do assunto.
             identity.SetClaim(OpenIddictConstants.Claims.Subject,
                 await applicationManager.GetClientIdAsync(application));
             identity.SetClaim(OpenIddictConstants.Claims.Name,
                 await applicationManager.GetDisplayNameAsync(application));
+            
+            // Adicione um público (claim "aud")
+            identity.SetClaim("aud", "https://casashabia.com.br");
 
-            // Set destinations for claims based on scopes.
+            // Defina destinos para declarações com base em escopos.
             identity.SetDestinations(claim => claim.Type switch
             {
                 OpenIddictConstants.Claims.Name when claim.Subject.HasScope(OpenIddictConstants.Permissions.Scopes
@@ -38,6 +41,6 @@ public class AuthorizationController(IOpenIddictApplicationManager applicationMa
             return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
-        throw new NotImplementedException("The specified grant is not implemented.");
+        throw new NotImplementedException("A concessão especificada não foi implementada.");
     }
 }

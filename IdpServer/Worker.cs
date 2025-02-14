@@ -11,7 +11,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
 
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-        // Register a client application if it doesn't exist.
+        // Registra um aplicativo cliente se ele não existir.
         if (await manager.FindByClientIdAsync("service-worker", cancellationToken) is null)
         {
             await manager.CreateAsync(new OpenIddict.Abstractions.OpenIddictApplicationDescriptor

@@ -9,6 +9,8 @@ rsa.ImportFromPem(jwtOptions?.PrivateKey.ToCharArray());
 // Criar o RsaSecurityKey usando a chave privada e definir o KeyId.
 var signingKey = new RsaSecurityKey(rsa) { KeyId = jwtOptions?.KeyId };
 
+// Registre a chave no DI para que possa ser injetada posteriormente.
+builder.Services.AddSingleton<RsaSecurityKey>(signingKey);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -37,13 +39,13 @@ builder.Services.AddOpenIddict()
         options.AddDevelopmentEncryptionCertificate();
         // ou
         // options.AddEphemeralEncryptionKey();
+        options.DisableAccessTokenEncryption();
 
         options.UseAspNetCore()
             .EnableTokenEndpointPassthrough();
     });
 
 builder.Services.AddControllers();
-
 builder.Services.AddHostedService<Worker>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiConfig();
