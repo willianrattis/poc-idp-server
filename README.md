@@ -39,12 +39,12 @@ A arquitetura é composta por três componentes principais:
 
 ## Pré-requisitos do Banco de Dados
 
-Antes de executar a aplicação, é necessário criar e atualizar o banco de dados com as tabelas necessárias pelo OpenIddict. Na pasta do projeto IDP Server, execute:
-
+Antes de executar a aplicação, é necessário criar e atualizar o banco de dados com as tabelas necessárias pelo OpenIddict. **Caso o arquivo `openidict-test.db` já esteja presente na raiz do projeto, a execução dos comandos abaixo não é necessária.**
 ```bash
 dotnet ef migrations add InitialMigration
 dotnet ef database update
 ```
+
 ## Documentação do IDP Server
 
 Acesse a documentação completa do IDP Server em:
