@@ -1,5 +1,15 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
+
 var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();
 
 // Criar uma instância de RSA e importar a chave privada a partir do PEM.
@@ -54,6 +64,7 @@ var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 app.UseRouting();
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();
